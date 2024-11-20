@@ -73,7 +73,6 @@ model Ticket {
   eventId         String          // Foreign key
   ticketCategoryId String         // Foreign key
   name            String
-  email           String          @unique
 
   user            User            @relation(fields: [userId], references: [id]) // Many-to-one relation: A ticket belongs to a user
   event           Event           @relation(fields: [eventId], references: [id]) // Many-to-one relation: A ticket belongs to an event

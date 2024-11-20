@@ -7,8 +7,85 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Status {
+  DELETED
+  ACTIVE
+  INACTIVE
+}
+
 model User {
-  id    Int    @id @default(autoincrement())
-  name  String
-  email String @unique
+  id        String    @id @default(uuid())
+  firstName String
+  lastName  String
+  email     String    @unique
+  verified  Boolean   @default(false) 
+  status    Status    @default(ACTIVE)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  events    Event[]   // One-to-many relation: A user can create multiple events
+  tickets   Ticket[]  // One-to-many relation: A user can purchase multiple tickets
+}
+
+model Event {
+  id              String          @id @default(uuid())
+  name            String
+  description     String?
+  category        String
+  userId          String          // Foreign key
+  startDate       DateTime
+  endDate         DateTime?
+  startTime       DateTime?
+  endTime         DateTime?
+  venue           String
+  address         String?
+  city            String
+  state           String?
+  country         String
+  latitude        Float?
+  longitude       Float?
+  ticketPrice     Float
+  currency        String
+  ticketLimit     Int?
+  ticketType      String
+  status          String
+  visibility      String
+  bannerUrl       String?
+  thumbnailUrl    String?
+  tags            String[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  isFeatured      Boolean         @default(false)
+  ageRestriction  Int?
+  refundPolicy    String?
+  capacity        Int?
+  contactEmail    String?
+  contactPhone    String?
+
+  user            User            @relation(fields: [userId], references: [id]) // Many-to-one relation: An event is created by a user
+  tickets         Ticket[]        // One-to-many relation: An event can have multiple tickets
+  ticketCategories TicketCategory[] // One-to-many relation: An event can have multiple ticket categories
+}
+
+model Ticket {
+  id              String          @id @default(uuid())
+  userId          String          // Foreign key
+  eventId         String          // Foreign key
+  ticketCategoryId String         // Foreign key
+  name            String
+  email           String          @unique
+
+  user            User            @relation(fields: [userId], references: [id]) // Many-to-one relation: A ticket belongs to a user
+  event           Event           @relation(fields: [eventId], references: [id]) // Many-to-one relation: A ticket belongs to an event
+  ticketCategory  TicketCategory  @relation(fields: [ticketCategoryId], references: [id]) // Many-to-one relation: A ticket belongs to a ticket category
+}
+
+model TicketCategory {
+  id              String          @id @default(uuid())
+  eventId         String          // Foreign key
+  name            String
+  price           Decimal
+
+  event           Event           @relation(fields: [eventId], references: [id]) // Many-to-one relation: A ticket category belongs to an event
+  tickets         Ticket[]        // One-to-many relation: A ticket category can have multiple tickets
 }

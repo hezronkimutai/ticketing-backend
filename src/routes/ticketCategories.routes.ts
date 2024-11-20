@@ -1,15 +1,15 @@
 import { Router } from 'express';
-import { getAllUsers, createUser } from '../services/user.service';
+import { getAllTicketCategories, createTicketCategory } from '../services/ticketCategory.service';
 
 const router = Router();
 
 router.get('/', async (_req, res) => {
-  const users = await getAllUsers();
+  const users = await getAllTicketCategories();
   res.json(users);
 });
 
 router.post('/', async (req, res) => {
-  const newUser = await createUser(req.body);
+  const newUser = await createTicketCategory(req.body);
   res.json(newUser);
 });
 

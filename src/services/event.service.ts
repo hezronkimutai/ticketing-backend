@@ -25,7 +25,6 @@ export async function createEvent(eventData: {
   visibility: string;
   bannerUrl: string | null;
   thumbnailUrl: string | null;
-  tags: string[];
   isFeatured: boolean;
   ageRestriction: number | null;
   refundPolicy: string | null;
@@ -58,7 +57,6 @@ export async function createEvent(eventData: {
       visibility: eventData.visibility,
       bannerUrl: eventData.bannerUrl,
       thumbnailUrl: eventData.thumbnailUrl,
-      tags: eventData.tags,
       isFeatured: eventData.isFeatured,
       ageRestriction: eventData.ageRestriction,
       refundPolicy: eventData.refundPolicy,

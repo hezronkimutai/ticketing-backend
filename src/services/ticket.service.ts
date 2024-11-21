@@ -15,7 +15,6 @@ ticketData:{  userId: string,
       eventId:ticketData.eventId,
       ticketCategoryId:ticketData.ticketCategoryId,
       name:ticketData.name,
-      email:ticketData.email||"",
     },
   });
 };

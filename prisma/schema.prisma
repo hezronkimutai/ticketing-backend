@@ -61,7 +61,7 @@ model Event {
   contactEmail    String?
   contactPhone    String?
 
-  user            User            @relation(fields: [userId], references: [id]) // Many-to-one relation: An event is created by a user
+  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   tickets         Ticket[]        // One-to-many relation: An event can have multiple tickets
   ticketCategories TicketCategory[] // One-to-many relation: An event can have multiple ticket categories
 }
@@ -73,9 +73,9 @@ model Ticket {
   ticketCategoryId String         // Foreign key
   name            String
 
-  user            User            @relation(fields: [userId], references: [id]) // Many-to-one relation: A ticket belongs to a user
-  event           Event           @relation(fields: [eventId], references: [id]) // Many-to-one relation: A ticket belongs to an event
-  ticketCategory  TicketCategory  @relation(fields: [ticketCategoryId], references: [id]) // Many-to-one relation: A ticket belongs to a ticket category
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade) // Many-to-one relation: A ticket belongs to a user
+  event           Event           @relation(fields: [eventId], references: [id], onDelete: Cascade) // Many-to-one relation: A ticket belongs to an event
+  ticketCategory  TicketCategory  @relation(fields: [ticketCategoryId], references: [id], onDelete: Cascade) // Many-to-one relation: A ticket belongs to a ticket category
 }
 
 model TicketCategory {
@@ -84,6 +84,6 @@ model TicketCategory {
   name            String
   price           Decimal
 
-  event           Event           @relation(fields: [eventId], references: [id]) // Many-to-one relation: A ticket category belongs to an event
+  event           Event           @relation(fields: [eventId], references: [id], onDelete: Cascade) // Many-to-one relation: A ticket category belongs to an event
   tickets         Ticket[]        // One-to-many relation: A ticket category can have multiple tickets
 }

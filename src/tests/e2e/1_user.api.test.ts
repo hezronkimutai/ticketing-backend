@@ -1,5 +1,5 @@
-import { request } from '.';
-import prisma from '../prisma/client';
+import { request } from '..';
+import prisma from '../../prisma/client';
 
 describe('Express API with Real Database', () => {
   beforeAll(async () => {
@@ -32,6 +32,8 @@ describe('Express API with Real Database', () => {
   });
 
   afterAll(async () => {
+
     await prisma.$disconnect();
+
   });
 });

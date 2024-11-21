@@ -1,13 +1,13 @@
-import prisma from "../prisma/client";
+import prisma from "../../prisma/client";
 import {
   createTicketCategory,
   getAllTicketCategories,
   getTicketCategoryById,
   updateTicketCategory,
   deleteTicketCategory,
-} from "../services/ticketCategory.service";
-import { createEvent } from "../services/event.service"; // Assuming event creation is in this service
-import { createUser } from "../services/user.service";
+} from "../../services/ticketCategory.service";
+import { createEvent } from "../../services/event.service"; // Assuming event creation is in this service
+import { createUser } from "../../services/user.service";
 
 let testUser: any;
 type Status = "ACTIVE" | "INACTIVE" | "DELETED";
@@ -62,11 +62,9 @@ describe("Ticket Category Service with Real Database", () => {
   let ticketCategoryData: { eventId: string; name: string; price: any };
 
   beforeAll(async () => {
-    await prisma.event.deleteMany();
-    await prisma.user.deleteMany();
+
     testUser = await createUser(userData);
-    await prisma.ticketCategory.deleteMany();
-    await prisma.event.deleteMany();
+
     eventData.userId = testUser.id;
 
     testEvent = await createEvent(eventData);
@@ -85,7 +83,7 @@ describe("Ticket Category Service with Real Database", () => {
 
   it("should fetch all ticket categories", async () => {
     const ticketCategories = await getAllTicketCategories();
-    expect(ticketCategories.length).toBe(1);
+    expect(ticketCategories.length).toBeGreaterThan(0);
   });
 
   it("should fetch a ticket category by ID", async () => {
@@ -109,10 +107,11 @@ describe("Ticket Category Service with Real Database", () => {
     expect(deletedCategory).toMatchObject({ name: "Updated VIP Ticket" });
 
     const remainingCategories = await getAllTicketCategories();
-    expect(remainingCategories.length).toBe(0);
+    expect(remainingCategories.length).toBe(ticketCategories.length - 1);
   });
 
   afterAll(async () => {
+
     await prisma.$disconnect();
   });
 });

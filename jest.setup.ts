@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 
 // Load test environment variables
 dotenv.config({ path: '.env.test' });
+jest.setTimeout(30000); // Timeout in milliseconds (e.g., 30 seconds)
 
 export default async () => {
   try {

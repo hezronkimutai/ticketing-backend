@@ -91,22 +91,23 @@ describe('Ticket Service with Real Database', () => {
     });
 
     it('should fetch a ticket by ID', async () => {
+        await createTicket(ticketData);
         const tickets = await getAllTickets();
         const ticket = await getTicketById(tickets[0].id);
         expect(ticket).toBeDefined();
     });
 
     it('should update a ticket', async () => {
+        await createTicket(ticketData);
         const tickets = await getAllTickets();
         const updatedTicket = await updateTicket(tickets[0].id, { name: 'Updated Ticket User' });
         expect(updatedTicket.name).toBe('Updated Ticket User');
     });
 
     it('should delete a ticket', async () => {
+        await createTicket(ticketData);
         const tickets = await getAllTickets();
         const deletedTicket = await deleteTicket(tickets[0].id);
-        expect(deletedTicket).toMatchObject({ name: 'Updated Ticket User' });
-
         const remainingTickets = await getAllTickets();
         expect(remainingTickets.length).toBe(tickets.length - 1);
     });

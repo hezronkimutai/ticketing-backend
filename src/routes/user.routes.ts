@@ -1,9 +1,11 @@
 import { Router, Request, Response } from "express";
 import { getAllUsers, createUser } from "../services/user.service";
+import { checkValidationResults } from '../middlewares/validators/index'
+import { signupValidator } from '../middlewares/validators/user'
 
 const router: Router = Router();
 
-router.get("/", async (_req: Request, res: Response) => {
+router.get("/", checkValidationResults, async (_req: Request, res: Response) => {
   try {
     const users = await getAllUsers();
     res.json(users);
@@ -12,7 +14,7 @@ router.get("/", async (_req: Request, res: Response) => {
   }
 });
 
-router.post("/", async (req: Request, res: Response) => {
+router.post("/", signupValidator, checkValidationResults, async (req: Request, res: Response) => {
   try {
     const newUser = await createUser(req.body);
     res.json(newUser);

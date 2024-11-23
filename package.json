@@ -5,7 +5,7 @@
   "scripts": {
     "reset-db": "npx prisma migrate reset --force --skip-seed --schema=./prisma/schema.prisma",
     "test": "dotenv -e .env.test -- npm run reset-db && jest --config jest.config.js",
-    "dev": "nodemon -r ts-node/register src/index.ts"
+    "dev": "nodemon"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "morgan": "^1.10.0",
     "pg": "^8.13.1",
     "prisma": "^5.22.0"
   },
@@ -24,7 +25,8 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
-    "@types/node": "^22.9.0",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.9.3",
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^8.15.0",
     "@typescript-eslint/parser": "^8.15.0",

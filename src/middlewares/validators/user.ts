@@ -4,3 +4,11 @@ export const signupValidator = [
     check('email').isEmail().withMessage('Please provide a valid email address'),
     check('password').isLength({ min: 5 }).withMessage('Password must be at least 5 characters long'),
 ];
+
+// login validator
+export const loginValidator = [
+    check('email').isEmail().withMessage('Please provide a valid email address'),
+    check('password').isLength({ min: 5 }).withMessage('Password must be at least 5 characters long'),
+];
+
+// update profile validator

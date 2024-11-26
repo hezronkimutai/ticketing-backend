@@ -69,7 +69,7 @@ function isAccessTokenExpired(authClient: Auth.OAuth2Client): boolean {
  */
 function refreshAccessToken(authClient: Auth.OAuth2Client): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-        authClient.refreshAccessToken((err, tokens) => {
+        authClient.refreshAccessToken((err: any, tokens: any) => {
             if (err) {
                 reject(err);
             } else {
@@ -88,7 +88,7 @@ function refreshAccessToken(authClient: Auth.OAuth2Client): Promise<void> {
  * @param subject - Email subject
  * @param cb - Callback function to handle response
  */
-function sendEmail(authClient: Auth.OAuth2Client, content: string, to: any, from: any, subject: any, cb: any) {
+export function sendEmail(authClient: Auth.OAuth2Client, content: string, to: any, from: any, subject: any, cb: any) {
     let emailLines = [
         `Content-Type: text/html; charset="UTF-8"`,
         `MIME-Version: 1.0`,
@@ -114,3 +114,17 @@ function sendEmail(authClient: Auth.OAuth2Client, content: string, to: any, from
         }
     }, cb);
 }
+
+// send email verification after registration
+export function sendEmailVerification(authClient: Auth.OAuth2Client, email: string, cb: any ) {
+    const content = `
+    <h1>Verify your email address</h1>
+    <p>Click on the link below to verify your email address</p>
+    <p><a href="${process.env.EMAIL_VERIFICATION_LINK}/${email}">Verify Email</ a></p>
+    `;
+    sendEmail(authClient, content, email, process.env.EMAIL_SENDER, 'Verify your email address', cb);
+    }
+
+
+
+

@@ -1,16 +1,14 @@
-import prisma from '../prisma/client';
+import prisma from "../prisma/client";
 
-type Status = 'ACTIVE' | 'INACTIVE' | 'DELETED'
+type Status = "ACTIVE" | "INACTIVE" | "DELETED";
 
-export const createUser = async (
-  userData: {
-    firstName: string,
-    lastName: string,
-    email: string,
-    verified: boolean,
-    status: Status
-  }
-) => {
+export const createUser = async (userData: {
+  firstName: string;
+  lastName: string;
+  email: string;
+  verified: boolean;
+  status: Status;
+}) => {
   return prisma.user.create({
     data: {
       firstName: userData.firstName,
@@ -25,15 +23,17 @@ export const createUser = async (
 export const getAllUsers = async () => {
   return prisma.user.findMany();
 };
-//get user by email
+//get user by email and password
 export const getUser = async (email: string) => {
   return prisma.user.findUnique({
     where: { email },
+    select: {
+      id: true,
+      email: true,
+      // password: true, // Include the password in the response
+    },
   });
 };
-
-
-
 
 export const getUserById = async (id: string) => {
   return prisma.user.findUnique({
@@ -42,13 +42,16 @@ export const getUserById = async (id: string) => {
   });
 };
 
-export const updateUser = async (id: string, data: Partial<{
-  firstName: string;
-  lastName: string;
-  email: string;
-  verified: boolean;
-  status: 'ACTIVE' | 'INACTIVE' | 'DELETED';
-}>) => {
+export const updateUser = async (
+  id: string,
+  data: Partial<{
+    firstName: string;
+    lastName: string;
+    email: string;
+    verified: boolean;
+    status: "ACTIVE" | "INACTIVE" | "DELETED";
+  }>
+) => {
   return prisma.user.update({
     where: { id },
     data,

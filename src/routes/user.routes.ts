@@ -36,7 +36,7 @@ router.get(
 
 // sign up
 router.post(
-  "/user/api/signup",
+  "/signup",
   signupValidator,
   checkValidationResults,
   async (req: Request, res: Response) => {
@@ -55,14 +55,14 @@ router.post(
 
 //login
 router.post(
-  "/user/api/login",
+  "/signin",
   loginLimiter,
   async (req: Request<{}, {}, LoginInput>, res: Response): Promise<void> => {
     try {
       const { email, password } = req.body;
 
       // Fetch the user by email (Implement your own getUser function)
-      const user = await getUser(email);
+      const user = (await getUser(email)) as any;
       if (!user) {
         return;
       }

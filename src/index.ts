@@ -1,14 +1,14 @@
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
-import morgan from 'morgan';
+import morgan from "morgan";
 import userRoutes from "./routes/user.routes";
 import eventRoutes from "./routes/event.routes";
 import ticketRoutes from "./routes/ticket.routes";
 import ticketCategoriesRoutes from "./routes/ticketCategories.routes";
-import { generateReceipt } from './utils/pdfGenerator'
+import { generateReceipt } from "./utils/pdfGenerator";
 const app = express();
-const PORT = process.env.PORT || 3000;
-app.use(morgan('dev'));
+const PORT = process.env.PORT || 3001;
+app.use(morgan("dev"));
 
 const corsOptions = {
   origin: "http://localhost:8080",
@@ -30,7 +30,7 @@ app.use("/api/ticket-categories", ticketCategoriesRoutes);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
-  res.status(500).json({ error: 'Something went wrong!' });
+  res.status(500).json({ error: "Something went wrong!" });
 });
 
 if (process.env.NODE_ENV !== "test") {
